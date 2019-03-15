@@ -33,8 +33,9 @@ plug "https://github.com/TeddyDD/kakoune-mint"
     - initial release
     - Kakoune v2018.09.04
     - Mint 0.3.0
-- master:
+- 0.2 2019-03-15:
     - Kakoune v2019.01.20
     - Mint 0.4.0
     - __CHANGE__ new directory layout (breaking: update path in `kakrc`)
+		- _ADD_ new keywords
 
