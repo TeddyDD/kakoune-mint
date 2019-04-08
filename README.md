@@ -38,4 +38,6 @@ plug "https://github.com/TeddyDD/kakoune-mint"
     - Mint 0.4.0
     - __CHANGE__ new directory layout (breaking: update path in `kakrc`)
     - _ADD_ new keywords
+- master:
+    - _ADD_ comment blocks
 

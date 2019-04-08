@@ -11,6 +11,9 @@ hook global BufCreate .*[.]mint %{
     # indentation is strictly 2 spaces in Mint
     set-option buffer indentwidth 2
     set-option buffer tabstop 2
+
+    set-option buffer comment_block_begin /*
+    set-option buffer comment_block_end */
 }
 
 # Highlighting
