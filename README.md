@@ -40,4 +40,6 @@ plug "https://github.com/TeddyDD/kakoune-mint"
     - _ADD_ new keywords
 - master:
     - _ADD_ comment blocks
+		- _FIX_ replace `in` keyword with `of` (for loops)
+		- _ADD_ missing `when` keyword (for loop)
 

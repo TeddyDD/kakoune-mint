@@ -62,7 +62,7 @@ add-highlighter shared/mint/javascript    region "`"  (?<!\\)(\\\\)*`         re
 
 evaluate-commands %sh{
     typedefs="component|store|style|record|enum|module|provider|routes"
-    keywords="where|if|else|for|in|case|try|sequence|parallel|catch|finally|then|next|connect|exposing|void|using|decode|encode|as|with"
+    keywords="where|when|if|else|for|of|case|try|sequence|parallel|catch|finally|then|next|connect|exposing|void|using|decode|encode|as|with"
     properties="fun|property|get|state"
     builtins="Promise|Result|Void|Never|Maybe|true|false"
     operators="[=|]>|\||::"
