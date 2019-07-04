@@ -16,6 +16,19 @@ hook global BufCreate .*[.]mint %{
     set-option buffer comment_block_end */
 }
 
+define-command mint-generate-procfile -docstring 'Generate procfile in current directory' %{
+    evaluate-commands %sh{
+        if [ -f "./mint.json" ] && [ ! -e "./Procfile" ]; then
+            touch Procfile
+            echo "web: mint start" > Procfile
+            echo "doc: mint docs"  >> Procfile
+            echo "echo 'Created'"
+        fi
+    }
+}
+
+provide-module mint %§
+
 # Highlighting
 # ------------
 
@@ -96,24 +109,18 @@ define-command -hidden mint-indent-on-new-line %<
     >
 >
 
-define-command mint-generate-procfile -docstring 'Generate procfile in current directory' %{
-    evaluate-commands %sh{
-        if [ -f "./mint.json" ] && [ ! -e "./Procfile" ]; then
-            touch Procfile
-            echo "web: mint start" > Procfile
-            echo "doc: mint docs"  >> Procfile
-            echo "echo 'Created'"
-        fi
-    }
-}
-
-hook global WinSetOption "filetype=mint" %{
-    hook window ModeChange insert:.* -group mint-hooks  mint-filter-around-selections
-    hook window InsertChar \n -group mint-indent mint-indent-on-new-line
-}
+§ # Module
 
 # Initialization
 # --------------
+
+hook global WinSetOption "filetype=mint" %{
+    require-module mint
+	require-module html
+	require-module css
+    hook window ModeChange insert:.* -group mint-hooks  mint-filter-around-selections
+    hook window InsertChar \n -group mint-indent mint-indent-on-new-line
+}
 
 hook global -group "mint-highlight" WinSetOption "filetype=mint" %{
     add-highlighter window/mint ref mint
