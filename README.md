@@ -38,8 +38,10 @@ plug "https://github.com/TeddyDD/kakoune-mint"
     - Mint 0.4.0
     - __CHANGE__ new directory layout (breaking: update path in `kakrc`)
     - _ADD_ new keywords
-- master:
+- 0.3 2019-07-04:
+    - Kakoune v2019.07.01
+    - __CHANGE__ use modules
     - _ADD_ comment blocks
-		- _FIX_ replace `in` keyword with `of` (for loops)
-		- _ADD_ missing `when` keyword (for loop)
+    - _FIX_ replace `in` keyword with `of` (for loops)
+    - _ADD_ missing `when` keyword (for loop)
 
