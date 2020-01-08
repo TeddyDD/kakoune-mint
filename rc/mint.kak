@@ -35,14 +35,12 @@ provide-module mint %§
 
 add-highlighter shared/mint regions
 add-highlighter shared/mint/code default-region group
-add-highlighter shared/mint/double_string region '"'  (?<!\\)(\\\\)*" fill string
+add-highlighter shared/mint/double_string region '"'  (?<!\\)(\\\\)*" regions
 add-highlighter shared/mint/single_string region "'"  (?<!\\)(\\\\)*' fill string
 add-highlighter shared/mint/comment       region /\*  \*/             fill comment
 
-# styles
-add-highlighter shared/mint/css  region  'style \w+' \}  regions
-add-highlighter shared/mint/css/ default-region regex '(style)\s([\w]+)' 1:keyword 2:type
-add-highlighter shared/mint/css/inner region \{\K (?:\}) ref css
+add-highlighter shared/mint/double_string/ default-region fill string
+add-highlighter shared/mint/double_string/interpolation region -recurse \{ \Q#{ \} ref mint
 
 # html
 add-highlighter shared/mint/html region -recurse (?<![\w<])<[a-zA-Z][\w:.-]* (?<![\w<])<[a-zA-Z][\w:.-]*(?!\hextends)(?=[\s/>])(?!>\()) (</.*?>|/>) regions
@@ -51,15 +49,31 @@ add-highlighter shared/mint/html/tag  region -recurse <  <(?=[/a-zA-Z]) (?<!=)> 
 add-highlighter shared/mint/html/expr region -recurse \{ \{             \}      ref mint
 
 add-highlighter shared/mint/html/tag/base default-region group
-add-highlighter shared/mint/html/tag/double_string region =\K" (?<!\\)(\\\\)*" fill string
+add-highlighter shared/mint/html/tag/double_string region =\K" (?<!\\)(\\\\)*" ref mint/double_string
 add-highlighter shared/mint/html/tag/single_string region =\K' (?<!\\)(\\\\)*' fill string
-add-highlighter shared/mint/html/tag/expr region -recurse \{ \{   \}           group
+add-highlighter shared/mint/html/double_string region '"'  (?<!\\)(\\\\)*" ref mint/double_string
+add-highlighter shared/mint/html/single_string region "'"  (?<!\\)(\\\\)*' fill string
+add-highlighter shared/mint/html/comment       region /\*  \*/             fill comment
+add-highlighter shared/mint/html/tag/expr      region -recurse \{ \{ \}    group
+add-highlighter shared/mint/html/tag/expr/ ref mint
 
 add-highlighter shared/mint/html/tag/base/ regex (\w+) 1:attribute
 add-highlighter shared/mint/html/tag/base/ regex </?([\w-$]+) 1:keyword
 add-highlighter shared/mint/html/tag/base/ regex (</?|/?>) 0:meta
 
-add-highlighter shared/mint/html/tag/expr/ ref mint
+# css
+add-highlighter shared/mint/css region -recurse \{ 'style \w+(\(.+\))? \{' \} regions
+
+add-highlighter shared/mint/css/outer default-region group
+add-highlighter shared/mint/css/outer/style regex '(style) (\w+)' 1:keyword 2:type
+add-highlighter shared/mint/css/outer/params regex ":{1}\h([\w\.]+)" 1:type
+
+add-highlighter shared/mint/css/inner region -recurse \{ \{\K \K(?=\}) regions
+add-highlighter shared/mint/css/inner/default default-region ref css
+add-highlighter shared/mint/css/inner/comment region /[*] [*]/ fill comment
+add-highlighter shared/mint/css/inner/double_string region '"' (?<!\\)(\\\\)*" ref mint/double_string
+add-highlighter shared/mint/css/inner/single_string region "'" "'"             fill string
+add-highlighter shared/mint/css/inner/interpolation region  '#\{\K' \K(?=\}) ref mint
 
 add-highlighter shared/mint/code/ regex ":{1}\h([\w\.]+)" 1:type
 add-highlighter shared/mint/code/ regex "\d+" 0:value
@@ -68,7 +82,9 @@ add-highlighter shared/mint/code/ regex "(\w+)\(" 1:function
 # keywords highlighting defined in completion section
 
 # FIXME
-add-highlighter shared/mint/javascript    region "`"  (?<!\\)(\\\\)*`         ref javascript
+add-highlighter shared/mint/javascript       region "`"  (?<!\\)(\\\\)*` regions
+add-highlighter shared/mint/javascript/outer default-region fill string
+add-highlighter shared/mint/javascript/inner region -recurse '`' "\A\K"  '(?=`)' ref javascript
 
 # Highlighting / Completion
 # -------------------------
@@ -82,6 +98,7 @@ evaluate-commands %sh{
 
     printf "%s\n" "add-highlighter \"shared/mint/code/\" regex \"(?:^|\h)\b($typedefs|$keywords|$properties)\b(\h[\w\.]+)?\" 1:keyword 2:type"
     printf "%s\n" "add-highlighter \"shared/mint/code/\" regex \"\b($builtins)\b\" 1:builtin"
+    printf "%s\n" "add-highlighter \"shared/mint/css/outer/builtin\" regex \"\b($builtins)\b\" 1:builtin"
     printf "%s\n" "add-highlighter \"shared/mint/code/\" regex \"($operators)\" 1:operator"
 
     printf "%s\n" "hook global WinSetOption 'filetype=mint' %{ set-option window static_words $(echo $typedefs $keywords $properties  | tr '|' ' ')  }"

@@ -44,4 +44,7 @@ plug "https://github.com/TeddyDD/kakoune-mint"
     - _ADD_ comment blocks
     - _FIX_ replace `in` keyword with `of` (for loops)
     - _ADD_ missing `when` keyword (for loop)
-
+- master:
+    - Kakoune v2019.12.10
+    - Mint 0.7.1
+    - _FIX_ js highlighting
