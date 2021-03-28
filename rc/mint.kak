@@ -90,10 +90,10 @@ add-highlighter shared/mint/javascript/inner region -recurse '`' "\A\K"  '(?=`)'
 # -------------------------
 
 evaluate-commands %sh{
-    typedefs="component|store|style|record|enum|module|provider|routes"
+    typedefs="(?:global\s)?component|store|style|record|enum|module|provider|routes"
     keywords="where|when|if|else|for|of|case|try|sequence|parallel|catch|finally|then|next|connect|exposing|void|using|decode|encode|as|with"
     properties="fun|property|get|state"
-    builtins="Promise|Result|Void|Never|Maybe|true|false"
+    builtins="Promise|Result|Void|Never|Tuple|Maybe|true|false"
     operators="[=|]>|\||::"
 
     printf "%s\n" "add-highlighter \"shared/mint/code/\" regex \"(?:^|\h)\b($typedefs|$keywords|$properties)\b(\h[\w\.]+)?\" 1:keyword 2:type"

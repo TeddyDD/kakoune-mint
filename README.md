@@ -45,6 +45,8 @@ plug "https://github.com/TeddyDD/kakoune-mint"
     - _FIX_ replace `in` keyword with `of` (for loops)
     - _ADD_ missing `when` keyword (for loop)
 - master:
-    - Kakoune v2019.12.10
-    - Mint 0.7.1
+    - Kakoune v2020.09.01
+    - Mint 0.11.0
     - _FIX_ js highlighting
+    - _ADD_ Tuple type highlighting
+    - _ADD_ global component highlighting
